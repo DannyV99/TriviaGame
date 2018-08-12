@@ -1,19 +1,21 @@
 $(document).ready(function () {
-
+    let currentQuestion;
 
     var question1 = {
         asking: 'What is the name of Will Smith’s character in Independence Day?',
-        choices: ['General George Patton', 'Major James Thompson', 'Captain Steven Hiller', 'Captain Mike Miller']
+        choices: ['General George Patton', 'Major James Thompson', 'Captain Steven Hiller', 'Captain Mike Miller'],
+        correctAnswer: 'Captain Steven Hiller'
     };
 
     var question2 = {
         asking: "What year was Forrest Gump released?",
-        choices: ['1994', '1990', '2000', '2004']
+        choices: ['1994', '1990', '2000', '2004'],
+        correctAnswer: '1994'
     };
 
     var question3 = {
         asking: "Which 90’s movie featured the Looney Tunes on its soundtrack?",
-        choices: ['Space Jam', 'Like Mike', 'Toy Story', 'Animaniacs']
+        choices: ['Space Jam', 'Like Mike', 'Toy Story', 'Animaniacs'],
     };
 
     var question4 = {
@@ -38,6 +40,7 @@ $(document).ready(function () {
 
     // takes a question, throws it on page
     function renderQuestion(questy) {
+        currentQuestion = questy;
         let questionElement = $('#question');
         questionElement.text(questy.asking);
 
@@ -45,21 +48,77 @@ $(document).ready(function () {
         let choicesArray = questy.choices;
         choicesArray.forEach(function (value, idx, arr) {
             var choice = $('<li>');
-            choice.text(value);
+            var inny = $('<input>');
+            var labely = $('<label>');
+
+
+            inny.attr('type', "radio");
+            inny.attr('name', "answers");
+
+            inny.attr('value', value);
+            labely.text(value);
+
+            let mySpecificId = "item" + idx;
+            inny.attr('id', mySpecificId);
+            labely.attr('for', mySpecificId);
+            choice.append(inny);
+            choice.append(labely);
+
+            // <li> 
+            //    <input type="radio" name="answers">
+            //    <label>  Francis Ford Copolla</label>
+            // </li>
+            // choice.text(value);
             looseFragment = looseFragment.add(choice);
 
-        })
+        });
         $('.choice-container').html(looseFragment);
+
+
 
     }
 
+    $('button').click(function () {
+
+
+        var checked = $('input:checked').val();
+        if (checked === currentQuestion.correctAnswer) {
+            $('.message').text('Answer is correct.')
+        } else {
+            $('.message').text('Answer is not correct.');
+            var wrong = $('<img>');
+            wrong.attr('src', 'assets/images/wrong.png');
+            $('.message').append(wrong)
+
+        }
+        console.log(checked);
+
+
+        var correctValue = currentQuestion.correctAnswer;
+        //select all input values
+        let allInputs = $('input');
+        //filter wrong answers
+        let justCorrectInput = allInputs.filter(function (idx, el) {
+            el = $(el);
+            let valVal = el.val();
+            let isEqualToCorrectAnswer = valVal === correctValue;
+            return isEqualToCorrectAnswer;
+        })
+        // debugger;
+        justCorrectInput.addClass("show-correct");
+
+        // add border*
+
+        // renderQuestion(question2);
+
+    })
+
     renderQuestion(question1);
-    renderQuestion(question5);
 
 
 
 
-    console.log(questionBank)
+
 
 });
 

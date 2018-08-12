@@ -1,0 +1,10 @@
+ul {
+    list-style-type: none;
+}
+.show-correct + label {
+    border: solid green 3px;
+}
+img{
+    height:50px;
+    width: 50px;
+}
