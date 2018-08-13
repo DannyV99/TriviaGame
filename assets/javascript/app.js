@@ -65,7 +65,6 @@ $(document).ready(function () {
     var currentQ = 1;
     $('button').click(function () {
 
-
         setTimeout(function () {
             renderQuestion(questionOrder[currentQ++]);
             $('.message').text('');
@@ -74,7 +73,10 @@ $(document).ready(function () {
         // find what the user checked
         var checked = $('input:checked').val();
         if (checked === currentQuestion.correctAnswer) {
-            $('.message').text('Answer is correct.')
+            $('.message').text('Answer is correct.');
+            var right = $('<img>');
+            right.attr('src', 'assets/images/checkmark.jpg');
+            $('.message').append(right)
         } else {
             $('.message').text('Answer is not correct.');
             var wrong = $('<img>');
@@ -98,10 +100,35 @@ $(document).ready(function () {
         justCorrectInput.addClass("show-correct");
 
 
-
-
     })
 
     renderQuestion(questionOrder[0]);
 
+
+    var count = 10;
+    var counter = setInterval(timer, 1000);
+
+
+    function timer() {
+        count = count - 1;
+        $('#timer').text(count);
+        if (count <= 0) {
+            clearInterval(counter);
+            $('#timer').text('Time has expired');
+            $('.gameBoard').text('');
+            var gameOver = $('<img>');
+            gameOver.attr('src', 'assets/images/gameOver.jpg');
+            gameOver.attr('class', 'over')
+            $('.gameBoard').append(gameOver)
+            $('button').remove()
+        }
+
+        var checked = $('input:checked').length;
+        console.log(checked)
+        if (checked === 1) {
+            alert('im so fuckin tired');
+            $('#timer').remove(count);
+        }
+
+    }
 });
