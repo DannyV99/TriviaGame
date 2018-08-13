@@ -63,11 +63,17 @@ $(document).ready(function () {
     }
 
     var currentQ = 1;
+    var count = 11;
+    var counter = setInterval(timer, 1000);
     $('button').click(function () {
+
+        clearInterval(counter);
 
         setTimeout(function () {
             renderQuestion(questionOrder[currentQ++]);
             $('.message').text('');
+            count = 11;
+            counter = setInterval(timer, 1000);
         }, 3000)
 
         // find what the user checked
@@ -85,7 +91,6 @@ $(document).ready(function () {
 
         }
 
-
         // find and what the correct answer is
         var correctValue = currentQuestion.correctAnswer;
         //select all input values
@@ -98,16 +103,9 @@ $(document).ready(function () {
             return isEqualToCorrectAnswer;
         })
         justCorrectInput.addClass("show-correct");
-
-
     })
 
     renderQuestion(questionOrder[0]);
-
-
-    var count = 10;
-    var counter = setInterval(timer, 1000);
-
 
     function timer() {
         count = count - 1;
@@ -126,8 +124,6 @@ $(document).ready(function () {
         var checked = $('input:checked').length;
         console.log(checked)
         if (checked === 1) {
-            alert('im so fuckin tired');
-            $('#timer').remove(count);
         }
 
     }
